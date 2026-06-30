@@ -2,8 +2,6 @@
 
 **A Python-based end-to-end analytics covering data cleaning, EDA, cohort retention, RFM segmentation, K-Means clustering, and logistic regression for cancellation prediction.**
 
-[Dataset Source: UCI Machine Learning Repository – Online Retail II](https://archive.ics.uci.edu/dataset/502/online+retail+ii)
-
 ---
 
 ## Business Context
@@ -19,17 +17,19 @@ Each question is tackled as its own analytical module, using a consistent cleane
 
 ---
 
-## Tech Stack
+## Dataset and Tech Stack
 
 | Stage | Tools |
 |---|---|
-| Data Cleaning | Python, pandas, NumPy |
-| Exploratory Data Analysis | pandas, matplotlib, seaborn |
-| Cohort Analysis | pandas, matplotlib, seaborn |
-| Customer Segmentation | pandas, scikit-learn (KMeans, StandardScaler) |
-| Cancellation Prediction | scikit-learn (Logistic Regression) |
+| **Dataset** | [Online Retail II](https://archive.ics.uci.edu/dataset/502/online+retail+ii) |
+| **Sample Size** | 10,000 rows x 8 columns |
+| **Fields** | Invoice, StockCode, Description, Quantity, InvoiceDate, Price, CustomerID, Country |
+| **Data Cleaning** | Python, pandas, NumPy |
+| **Exploratory Data Analysis** | pandas, matplotlib, seaborn |
+| **Cohort Analysis** | pandas, matplotlib, seaborn |
+| **Customer Segmentation** | pandas, scikit-learn (KMeans, StandardScaler) |
+| **Cancellation Prediction** | scikit-learn (Logistic Regression) |
 
-This project is part of a tool-agnostic portfolio. The same business questions (funnel behavior, customer value, retention) are explored independently in SQL and Tableau in a companion repository — this project intentionally uses a different dataset (Online Retail II, UCI) so the two showcase distinct skill sets rather than duplicate work.
 
 ---
 

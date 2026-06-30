@@ -437,7 +437,8 @@ pip install pandas numpy matplotlib seaborn scikit-learn
 │   ├── 10_kmeans_clusters.png
 │   ├── 11_top_cancel_customers.png
 │   ├── 12_top_cancel_products.png
-│   └── 13_daily_cancellation_trend.png
+│   ├── 13_daily_cancellation_trend.png
+│   └── 14_Logistic_Regression.png
 └── README.md
 ```
 

@@ -185,7 +185,7 @@ plt.show()
 ![Average Order Value Distribution](charts/05_average_order_value.png)
 
 **Full Python Code:** <br>
-For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:
+For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:  
 [View Full Jupyter Notebook Code](python/EDA.ipynb)
 
 ---
@@ -229,7 +229,7 @@ Retention_Table = Cohort_Table.divide(Cohort_Size, axis=0) * 100
 ![Average Retention Curve](charts/08_average_retention_curve.png)
 
 **Full Python Code:** <br>
-For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:
+For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:  
 [View Full Jupyter Notebook Code](python/CohortAnalysis.ipynb)
 
 ---
@@ -298,7 +298,7 @@ RFM['Cluster'] = kmeans.labels_
 ![K-Means Customer Clusters](charts/10_kmeans_clusters.png)
 
 **Full Python Code:** <br>
-For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:
+For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:  
 [View Full Jupyter Notebook Code](python/RFMSegmentationandKMeansClustering.ipynb)
 
 ---
@@ -339,7 +339,7 @@ top_cancel_products = (
 ![Daily Cancellation Trend](charts/13_daily_cancellation_trend.png)
 
 **Full Python Code:** <br>
-For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:
+For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:  
 [View Full Jupyter Notebook Code](python/CancellationPatterns.ipynb)
 
 ---
@@ -388,7 +388,7 @@ print(classification_report(y_test, predictions, target_names=['Will Complete', 
 ![Logistic Regression](charts/14_logistic_regression)
 
 **Full Python Code:** <br>
-For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:
+For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:  
 [View Full Jupyter Notebook Code](python/LogisticRegression.ipynb)
 
 ---

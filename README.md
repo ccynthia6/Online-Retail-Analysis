@@ -78,6 +78,25 @@ This project is part of a tool-agnostic portfolio. The same business questions (
 
 **Result:** 9,974 clean transaction rows, exported as a single CSV consumed by every downstream notebook — ensuring all five analyses work from one consistent source of truth.
 
+**Code snippet — flagging cancelled orders and standardizing stock codes:**
+
+```python
+# Cancelled invoices are prefixed with 'C' — flag instead of deleting
+invoice_letter = df['Invoice'].astype(str).str.contains('[a-zA-Z]', regex=True)
+df['Order_Status'] = np.where(invoice_letter, 'Cancelled', 'Completed')
+
+# Strip the letter prefix once the status is captured
+df['Invoice'] = df['Invoice'].astype(str).str.extract(r'(\d+)')
+
+# Map non-product stock codes to readable labels
+type_mapping = {
+    'M': 'Manual Adjustment', 'POST': 'Postage Fee', 'C2': 'Special Carriage Fee',
+    'AMAZONFEE': 'Platform Fee', 'D': 'Discount', 'DOT': 'Dotcom Overhead',
+    'gift_0001_50': 'Gift Voucher', 'gift_0001_40': 'Gift Voucher'
+}
+df['StockCode'] = df['StockCode'].replace(type_mapping)
+```
+
 ---
 
 ## 2. Exploratory Data Analysis
@@ -108,6 +127,23 @@ This project is part of a tool-agnostic portfolio. The same business questions (
 ![Orders per Customer](charts/04_orders_per_customer.png)
 ![Average Order Value Distribution](charts/05_average_order_value.png)
 
+**Code snippet — one-time vs. repeat buyer split:**
+
+```python
+orders_per_customer = (
+    df.groupby('Customer ID')['Invoice']
+      .nunique()
+      .reset_index(name='num_orders')
+)
+
+one_time = (orders_per_customer['num_orders'] == 1).sum()
+repeat = (orders_per_customer['num_orders'] > 1).sum()
+total = len(orders_per_customer)
+
+print(f"One-time buyers : {one_time}  ({one_time/total:.1%})")
+print(f"Repeat buyers   : {repeat}  ({repeat/total:.1%})")
+```
+
 ---
 
 ## 3. Cohort Retention Analysis
@@ -128,6 +164,25 @@ Customers were grouped into weekly cohorts based on the week of their first purc
 ![Cohort Retention Heatmap](charts/06_cohort_retention_heatmap.png)
 ![Cohort Sizes per Week](charts/07_cohort_sizes.png)
 ![Average Retention Curve](charts/08_average_retention_curve.png)
+
+**Code snippet — building the retention table:**
+
+```python
+Completed['InvoiceWeek'] = Completed['InvoiceDate'].dt.to_period('W')
+Completed['Cohort_Week'] = Completed.groupby('Customer ID')['InvoiceWeek'].transform('min')
+Completed['Cohort_Index'] = (Completed['InvoiceWeek'] - Completed['Cohort_Week']).apply(lambda x: x.n)
+
+Cohort_Data = (
+    Completed.groupby(['Cohort_Week', 'Cohort_Index'])['Customer ID']
+              .nunique()
+              .reset_index()
+)
+Cohort_Table = Cohort_Data.pivot(index='Cohort_Week', columns='Cohort_Index', values='Customer ID')
+
+# Convert raw counts to retention percentages
+Cohort_Size = Cohort_Table.iloc[:, 0]
+Retention_Table = Cohort_Table.divide(Cohort_Size, axis=0) * 100
+```
 
 ---
 
@@ -162,6 +217,38 @@ RFM values were log-transformed (to handle skew) and standardized, then clustere
 ![RFM Segment Counts](charts/09_rfm_segment_counts.png)
 ![K-Means Customer Clusters](charts/10_kmeans_clusters.png)
 
+**Code snippet — RFM scoring and segment rules:**
+
+```python
+RFM['R_Score'] = pd.qcut(RFM['Recency'], q=4, labels=[4, 3, 2, 1])
+RFM['F_Score'] = pd.qcut(RFM['Frequency'].rank(method='first'), q=4, labels=[1, 2, 3, 4])
+RFM['M_Score'] = pd.qcut(RFM['Monetary'], q=4, labels=[1, 2, 3, 4])
+RFM['RFM_Cell'] = RFM['R_Score'].astype(str) + RFM['F_Score'].astype(str) + RFM['M_Score'].astype(str)
+
+def assign_simplified_segment(row):
+    if row['RFM_Cell'] == '444':
+        return 'VIP Customers'
+    elif row['M_Score'] == 4:
+        return 'Big Spenders'
+    elif row['R_Score'] == 1 and row['F_Score'] == 1:
+        return 'Lost Customers'
+    else:
+        return 'Regular Customers'
+
+RFM['Segment'] = RFM.apply(assign_simplified_segment, axis=1)
+```
+
+**Code snippet — K-Means clustering on scaled RFM values:**
+
+```python
+RFM_log = np.log1p(RFM[['Recency', 'Frequency', 'Monetary']])
+RFM_scaled = StandardScaler().fit_transform(RFM_log)
+
+kmeans = KMeans(n_clusters=4, random_state=42, n_init=10)
+kmeans.fit(RFM_scaled)
+RFM['Cluster'] = kmeans.labels_
+```
+
 ---
 
 ## 5. Cancellation Pattern Analysis
@@ -183,6 +270,22 @@ A daily cancellation trend across December shows cancellations are not evenly di
 ![Top 5 Most Frequently Cancelled Products](charts/12_top_cancel_products.png)
 ![Daily Cancellation Trend](charts/13_daily_cancellation_trend.png)
 
+**Code snippet — isolating and quantifying cancelled revenue:**
+
+```python
+Canceled = df[df['Order_Status'] == 'Cancelled'].copy()
+Canceled['Revenue'] = (Canceled['Quantity'] * Canceled['Price']).abs()
+
+top_cancel_products = (
+    Canceled.assign(Abs_Quantity=Canceled['Quantity'].abs())
+             .groupby('Description')['Abs_Quantity']
+             .sum()
+             .reset_index(name='Quantity')
+             .sort_values(by='Quantity', ascending=False)
+             .head(5)
+)
+```
+
 ---
 
 ## 6. Predicting Cancellations with Logistic Regression
@@ -203,6 +306,26 @@ A daily cancellation trend across December shows cancellations are not evenly di
 **Honest interpretation:** This model does **not** perform well, and that's an important and deliberately reported finding rather than a hidden one. With only 12 cancelling customers in the test set and just three weak features (Recency, Frequency, Monetary), the model has too little signal and too little class balance to reliably predict cancellations. Accuracy near 53% with very low precision shows the model is barely better than guessing on the minority class — RFM alone is not predictive of cancellation behavior in this dataset.
 
 **What this tells the business:** Cancellations in this dataset appear to be driven by factors outside basic purchase-recency-and-spend (e.g. the single outlier product identified in the cancellation pattern analysis), not by a customer being "high-risk" by RFM profile. A future iteration would need product-level features, order size, or time-of-purchase signals rather than relying on customer-level RFM alone.
+
+**Code snippet — training the cancellation prediction model:**
+
+```python
+X = RFM[['Recency', 'Frequency', 'Monetary']].copy()
+y = RFM['Will_Cancel'].copy()
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20, random_state=42)
+
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+
+model = LogisticRegression(random_state=42, class_weight='balanced')
+model.fit(X_train_scaled, y_train)
+
+predictions = model.predict(X_test_scaled)
+print(f"Overall Model Accuracy: {accuracy_score(y_test, predictions):.1%}")
+print(classification_report(y_test, predictions, target_names=['Will Complete', 'Will Cancel']))
+```
 
 ---
 

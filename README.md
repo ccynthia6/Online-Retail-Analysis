@@ -408,7 +408,7 @@ print(classification_report(y_test, predictions, target_names=['Will Complete', 
 
 **Visual:**
 
-![Logistic Prediction](charts/14_logistic_regression)
+![Logistic Regression](charts/14_logistic_regression)
 
 **Full Python Code:**
 *[View Full Jupyter Notebook Code](python/LogisticRegression.ipynb)

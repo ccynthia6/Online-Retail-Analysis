@@ -160,7 +160,7 @@ Predictive Cohort & Segment Construction: Quantifying the explicit breakdown bet
 - **Customer loyalty split:** 69.9% of customers were one-time buyers in this window, while 30.1% placed repeat orders — meaning roughly 7 in 10 customers acquired in a given period don't return without intervention, which sets up the retention question explored next in cohort analysis.
 - Both Quantity and Price are heavily right-skewed, consistent with a B2B/wholesale-influenced gift retailer where most purchases are small but a minority of bulk buyers skew the averages.
 
-**Code snippet — one-time vs. repeat buyer split:**
+**Code snippet — One-time vs. repeat buyer split and Financial Distribution & Outlier Aggregations Plotting Logic:**
 
 ```python
 #One-time vs. repeat buyer split
@@ -213,8 +213,9 @@ plt.show()
 ![Orders per Customer](charts/04_orders_per_customer.png)
 ![Average Order Value Distribution](charts/05_average_order_value.png)
 
-**Full Python Code:**
-*[View Full Jupyter Notebook Code](python/EDA.ipynb)
+**Full Python Code:** <br>
+For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:
+[View Full Jupyter Notebook Code](python/EDA.ipynb)
 
 ---
 
@@ -256,8 +257,9 @@ Retention_Table = Cohort_Table.divide(Cohort_Size, axis=0) * 100
 ![Cohort Sizes per Week](charts/07_cohort_sizes.png)
 ![Average Retention Curve](charts/08_average_retention_curve.png)
 
-**Full Python Code:**
-*[View Full Jupyter Notebook Code](python/CohortAnalysis.ipynb)
+**Full Python Code:** <br>
+For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:
+[View Full Jupyter Notebook Code](python/CohortAnalysis.ipynb)
 
 ---
 
@@ -324,8 +326,9 @@ RFM['Cluster'] = kmeans.labels_
 ![RFM Segment Counts](charts/09_rfm_segment_counts.png)
 ![K-Means Customer Clusters](charts/10_kmeans_clusters.png)
 
-**Full Python Code:**
-*[View Full Jupyter Notebook Code](python/RFMSegmentationandKMeansClustering.ipynb)
+**Full Python Code:** <br>
+For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:
+[View Full Jupyter Notebook Code](python/RFMSegmentationandKMeansClustering.ipynb)
 
 ---
 
@@ -364,8 +367,9 @@ top_cancel_products = (
 ![Top 5 Most Frequently Cancelled Products](charts/12_top_cancel_products.png)
 ![Daily Cancellation Trend](charts/13_daily_cancellation_trend.png)
 
-**Full Python Code:**
-*[View Full Jupyter Notebook Code](python/CancellationPatterns.ipynb)
+**Full Python Code:** <br>
+For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:
+[View Full Jupyter Notebook Code](python/CancellationPatterns.ipynb)
 
 ---
 
@@ -412,8 +416,9 @@ print(classification_report(y_test, predictions, target_names=['Will Complete', 
 
 ![Logistic Regression](charts/14_logistic_regression)
 
-**Full Python Code:**
-*[View Full Jupyter Notebook Code](python/LogisticRegression.ipynb)
+**Full Python Code:** <br>
+For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:
+[View Full Jupyter Notebook Code](python/LogisticRegression.ipynb)
 
 ---
 

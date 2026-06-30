@@ -385,7 +385,7 @@ print(classification_report(y_test, predictions, target_names=['Will Complete', 
 
 **Visual:**
 
-![Logistic Regression](charts/14_logistic_regression)
+![Logistic Regression](charts/14_Logistic_Regression)
 
 **Full Python Code:** <br>
 For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:  

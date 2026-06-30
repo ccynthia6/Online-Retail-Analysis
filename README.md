@@ -33,35 +33,6 @@ This project is part of a tool-agnostic portfolio. The same business questions (
 
 ---
 
-## Repository Structure
-
-```
-├── /python                                        # Full Python Source Code (6 files)
-├── OnlineRetail-DataCleaningFinal.ipynb        # Cleaning, standardization, type handling
-├── EDA.ipynb                                   # Distributions, order status, AOV, peak hours
-├── CohortAnalysis.ipynb                        # Weekly retention cohorts
-├── RFMSegmentationandKMeansClustering.ipynb     # Rule-based RFM + unsupervised clustering
-├── CancellationPatterns.ipynb                  # Who/what/when of cancellations
-├── LogisticRegression.ipynb                    # Predicting cancellation risk
-├── /charts                                        # Exported PNG visualizations (13 charts)
-│   ├── 01_quantity_price_distribution.png
-│   ├── 02_order_status_breakdown.png
-│   ├── 03_hourly_order_distribution.png
-│   ├── 04_orders_per_customer.png
-│   ├── 05_average_order_value.png
-│   ├── 06_cohort_retention_heatmap.png
-│   ├── 07_cohort_sizes.png
-│   ├── 08_average_retention_curve.png
-│   ├── 09_rfm_segment_counts.png
-│   ├── 10_kmeans_clusters.png
-│   ├── 11_top_cancel_customers.png
-│   ├── 12_top_cancel_products.png
-│   └── 13_daily_cancellation_trend.png
-└── README.md
-```
-
----
-
 ## 1. Data Cleaning
 
 **Source:** Online Retail II, Year 2010–2011 sheet, filtered to the 2010 portion and randomly sampled to 10,000 transaction lines (`random_state=42`) for a manageable, reproducible working set.
@@ -439,6 +410,35 @@ For the complete data pipeline, interactive charts, and step-by-step execution, 
 
 ```bash
 pip install pandas numpy matplotlib seaborn scikit-learn
+```
+
+---
+
+## Repository Structure
+
+```
+├── /python                                        # Full Python Source Code (6 files)
+├── OnlineRetail-DataCleaningFinal.ipynb        # Cleaning, standardization, type handling
+├── EDA.ipynb                                   # Distributions, order status, AOV, peak hours
+├── CohortAnalysis.ipynb                        # Weekly retention cohorts
+├── RFMSegmentationandKMeansClustering.ipynb     # Rule-based RFM + unsupervised clustering
+├── CancellationPatterns.ipynb                  # Who/what/when of cancellations
+├── LogisticRegression.ipynb                    # Predicting cancellation risk
+├── /charts                                        # Exported PNG visualizations (13 charts)
+│   ├── 01_quantity_price_distribution.png
+│   ├── 02_order_status_breakdown.png
+│   ├── 03_hourly_order_distribution.png
+│   ├── 04_orders_per_customer.png
+│   ├── 05_average_order_value.png
+│   ├── 06_cohort_retention_heatmap.png
+│   ├── 07_cohort_sizes.png
+│   ├── 08_average_retention_curve.png
+│   ├── 09_rfm_segment_counts.png
+│   ├── 10_kmeans_clusters.png
+│   ├── 11_top_cancel_customers.png
+│   ├── 12_top_cancel_products.png
+│   └── 13_daily_cancellation_trend.png
+└── README.md
 ```
 
 ---

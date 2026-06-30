@@ -79,7 +79,7 @@ This project is part of a tool-agnostic portfolio. The same business questions (
 
 **Result:** 9,974 clean transaction rows, exported as a single CSV consumed by every downstream notebook — ensuring all five analyses work from one consistent source of truth.
 
-**Code snippet — flagging cancelled orders and standardizing stock codes:**
+**Code snippet — dropping duplicates and standarizing the data:**
 
 ```python
 #Droping Duplicates
@@ -124,7 +124,8 @@ df['Invoice_Date_Only']=df['InvoiceDate'].dt.date
 df['Week_Beginning']=df['InvoiceDate'].dt.to_period('W').dt.start_time
 ```
 
-**Full Python Code:** <br>For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here: <br>  
+**Full Python Code:** <br>
+For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:<br>  
 [View Full Jupyter Notebook Code](python/OnlineRetail-DataCleaningFinal.ipynb)
 
 ---

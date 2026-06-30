@@ -1,6 +1,6 @@
-# Online Retail Customer Analytics: From Raw Transactions to Churn Prediction
+# Online Retail Customer Analytics
 
-**A Python-based end-to-end analytics case study covering data cleaning, EDA, cohort retention, RFM segmentation, K-Means clustering, and logistic regression for cancellation prediction.**
+**A Python-based end-to-end analytics covering data cleaning, EDA, cohort retention, RFM segmentation, K-Means clustering, and logistic regression for cancellation prediction.**
 
 [Dataset Source: UCI Machine Learning Repository – Online Retail II](https://archive.ics.uci.edu/dataset/502/online+retail+ii)
 
@@ -81,6 +81,10 @@ This project is part of a tool-agnostic portfolio. The same business questions (
 **Code snippet — flagging cancelled orders and standardizing stock codes:**
 
 ```python
+#Droping Duplicates
+df.duplicated().sum()
+df.drop_duplicates(inplace=True)
+
 # Cancelled invoices are prefixed with 'C' — flag instead of deleting
 invoice_letter = df['Invoice'].astype(str).str.contains('[a-zA-Z]', regex=True)
 df['Order_Status'] = np.where(invoice_letter, 'Cancelled', 'Completed')
@@ -89,12 +93,34 @@ df['Order_Status'] = np.where(invoice_letter, 'Cancelled', 'Completed')
 df['Invoice'] = df['Invoice'].astype(str).str.extract(r'(\d+)')
 
 # Map non-product stock codes to readable labels
+stock_letter = df['StockCode'].astype(str).str.contains('[a-zA-Z]',regex=True)
 type_mapping = {
     'M': 'Manual Adjustment', 'POST': 'Postage Fee', 'C2': 'Special Carriage Fee',
     'AMAZONFEE': 'Platform Fee', 'D': 'Discount', 'DOT': 'Dotcom Overhead',
     'gift_0001_50': 'Gift Voucher', 'gift_0001_40': 'Gift Voucher'
 }
 df['StockCode'] = df['StockCode'].replace(type_mapping)
+
+#Description Cleaning -- dropping rows with '?', formatting all capital words to title and filing nulls with 'Unknown'
+junk=df['Description'].astype(str).str.contains(r'^[?_\-:]+$',na=False)
+junk_index=df[df['Description']=='?'].index
+df=df.drop(index=junk_index)
+
+is_upper=df['Description'].apply(lambda x:isinstance(x,str) and x.isupper())
+df.loc[is_upper,'Description']=df.loc[is_upper,'Description'].str.title()
+
+df['Description'] = df['Description'].fillna('UNKNOWN')
+df['Description']=df['Description'].replace('UNKNOWN','Unknown')
+
+#Handling Customer ID nulls
+df['Customer ID']=df['Customer ID'].fillna(0)
+
+#Replaced 'EIRE' Country name
+df['Country'] = df['Country'].str.replace('EIRE', 'Ireland')
+
+#Derived Columns - Invoice_Week_Only and Week_Beginning
+df['Invoice_Date_Only']=df['InvoiceDate'].dt.date
+df['Week_Beginning']=df['InvoiceDate'].dt.to_period('W').dt.start_time
 ```
 
 ---

@@ -155,14 +155,6 @@ Predictive Cohort & Segment Construction: Quantifying the explicit breakdown bet
 - **Customer loyalty split:** 69.9% of customers were one-time buyers in this window, while 30.1% placed repeat orders — meaning roughly 7 in 10 customers acquired in a given period don't return without intervention, which sets up the retention question explored next in cohort analysis.
 - Both Quantity and Price are heavily right-skewed, consistent with a B2B/wholesale-influenced gift retailer where most purchases are small but a minority of bulk buyers skew the averages.
 
-**Visuals:**
-
-![Quantity and Price Distributions](charts/01_quantity_price_distribution.png)
-![Order Status Breakdown](charts/02_order_status_breakdown.png)
-![Hourly Order Distribution](charts/03_hourly_order_distribution.png)
-![Orders per Customer](charts/04_orders_per_customer.png)
-![Average Order Value Distribution](charts/05_average_order_value.png)
-
 **Code snippet — one-time vs. repeat buyer split:**
 
 ```python
@@ -207,6 +199,14 @@ plt.tight_layout()
 plt.savefig('charts/05_average_order_value.png', bbox_inches='tight')
 plt.show()
 ```
+
+**Visuals:**
+
+![Quantity and Price Distributions](charts/01_quantity_price_distribution.png)
+![Order Status Breakdown](charts/02_order_status_breakdown.png)
+![Hourly Order Distribution](charts/03_hourly_order_distribution.png)
+![Orders per Customer](charts/04_orders_per_customer.png)
+![Average Order Value Distribution](charts/05_average_order_value.png)
 
 ---
 

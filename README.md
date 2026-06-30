@@ -36,12 +36,13 @@ This project is part of a tool-agnostic portfolio. The same business questions (
 ## Repository Structure
 
 ```
-├── 01_OnlineRetail-DataCleaningFinal.ipynb        # Cleaning, standardization, type handling
-├── 02_EDA.ipynb                                   # Distributions, order status, AOV, peak hours
-├── 03_CohortAnalysis.ipynb                        # Weekly retention cohorts
-├── 04_RFMSegmentationandKMeansClustering.ipynb     # Rule-based RFM + unsupervised clustering
-├── 05_CancellationPatterns.ipynb                  # Who/what/when of cancellations
-├── 06_LogisticRegression.ipynb                    # Predicting cancellation risk
+├── /python                                        # Full Python Source Code (6 files)
+├── OnlineRetail-DataCleaningFinal.ipynb        # Cleaning, standardization, type handling
+├── EDA.ipynb                                   # Distributions, order status, AOV, peak hours
+├── CohortAnalysis.ipynb                        # Weekly retention cohorts
+├── RFMSegmentationandKMeansClustering.ipynb     # Rule-based RFM + unsupervised clustering
+├── CancellationPatterns.ipynb                  # Who/what/when of cancellations
+├── LogisticRegression.ipynb                    # Predicting cancellation risk
 ├── /charts                                        # Exported PNG visualizations (13 charts)
 │   ├── 01_quantity_price_distribution.png
 │   ├── 02_order_status_breakdown.png

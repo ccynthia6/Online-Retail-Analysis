@@ -36,17 +36,13 @@ This project is part of a tool-agnostic portfolio. The same business questions (
 ## Table of Contents
 
 1. [Data Cleaning](#1-data-cleaning)
-2. [Funnel Analysis](#2-Exploratory-Data-Analysis)
-3. [Trend Analysis](#3-trend-analysis)
-4. [Category & Sub-Category Performance](#4-category--sub-category-performance)
-5. [Revenue Analysis](#5-revenue-analysis)
-6. [Brand Analysis](#6-brand-analysis)
-7. [User Behaviour Analysis](#7-user-behaviour-analysis)
-8. [Cart Abandonment Analysis](#8-cart-abandonment-analysis)
-9. [Product-Level Analysis](#9-product-level-analysis)
-10. [Python Automation](#10-python-automation)
-11. [Key Findings & Recommendations](#10-key-findings--recommendations)
-
+2. [Exploratory Data Analysis](#2-exploratory-data-analysis)
+3. [Cohort Retention Analysis](#3-cohort-retention-analysis)
+4. [RFM Segmentation & K-Means Clustering](#4-rfm-segmentation-&-k-means-clustering)
+5. [Cancellation Pattern Analysis](#5-cancellation-pattern-analysis)
+6. [Predicting Cancellations with Logistic Regression](#6-predicting-cancellations-with-logistic-regression)
+7. [Key Business Recommendations](#7-key-business-recommendations)
+   
 ---
 
 ## 1. Data Cleaning

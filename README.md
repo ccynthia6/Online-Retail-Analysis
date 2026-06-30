@@ -125,7 +125,7 @@ df['Week_Beginning']=df['InvoiceDate'].dt.to_period('W').dt.start_time
 ```
 
 **Full Python Code:** <br>
-For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:<br>  
+For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:  
 [View Full Jupyter Notebook Code](python/OnlineRetail-DataCleaningFinal.ipynb)
 
 ---

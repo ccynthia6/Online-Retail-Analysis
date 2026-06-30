@@ -1,4 +1,5 @@
 # Online Retail Customer Analytics
+### Python · Pandas · Numpy · MatPLotLib · Seaborn · Scikit-Learn 
 
 **A Python-based end-to-end analytics covering data cleaning, EDA, cohort retention, RFM segmentation, K-Means clustering, and logistic regression for cancellation prediction.**
 

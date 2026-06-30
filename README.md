@@ -33,6 +33,22 @@ This project is part of a tool-agnostic portfolio. The same business questions (
 
 ---
 
+## Table of Contents
+
+1. [Data Cleaning](#1-data-cleaning)
+2. [Funnel Analysis](#2-Exploratory-Data-Analysis)
+3. [Trend Analysis](#3-trend-analysis)
+4. [Category & Sub-Category Performance](#4-category--sub-category-performance)
+5. [Revenue Analysis](#5-revenue-analysis)
+6. [Brand Analysis](#6-brand-analysis)
+7. [User Behaviour Analysis](#7-user-behaviour-analysis)
+8. [Cart Abandonment Analysis](#8-cart-abandonment-analysis)
+9. [Product-Level Analysis](#9-product-level-analysis)
+10. [Python Automation](#10-python-automation)
+11. [Key Findings & Recommendations](#10-key-findings--recommendations)
+
+---
+
 ## 1. Data Cleaning
 
 **Source:** Online Retail II, Year 2010–2011 sheet, filtered to the 2010 portion and randomly sampled to 10,000 transaction lines (`random_state=42`) for a manageable, reproducible working set.
@@ -383,10 +399,6 @@ print(f"Overall Model Accuracy: {accuracy_score(y_test, predictions):.1%}")
 print(classification_report(y_test, predictions, target_names=['Will Complete', 'Will Cancel']))
 ```
 
-**Visual:**
-
-![Logistic Regression](charts/14_Logistic_Regression)
-
 **Full Python Code:** <br>
 For the complete data pipeline, interactive charts, and step-by-step execution, refer to the full code here:  
 [View Full Jupyter Notebook Code](python/LogisticRegression.ipynb)
@@ -417,14 +429,15 @@ pip install pandas numpy matplotlib seaborn scikit-learn
 ## Repository Structure
 
 ```
-├── /python                                        # Full Python Source Code (6 files)
+online-retail-analysis/
+├── python/                                        # Full Python Source Code (6 files)
 ├── OnlineRetail-DataCleaningFinal.ipynb        # Cleaning, standardization, type handling
 ├── EDA.ipynb                                   # Distributions, order status, AOV, peak hours
 ├── CohortAnalysis.ipynb                        # Weekly retention cohorts
 ├── RFMSegmentationandKMeansClustering.ipynb     # Rule-based RFM + unsupervised clustering
 ├── CancellationPatterns.ipynb                  # Who/what/when of cancellations
 ├── LogisticRegression.ipynb                    # Predicting cancellation risk
-├── /charts                                        # Exported PNG visualizations (13 charts)
+├── charts/                                        # Exported PNG visualizations (13 charts)
 │   ├── 01_quantity_price_distribution.png
 │   ├── 02_order_status_breakdown.png
 │   ├── 03_hourly_order_distribution.png
@@ -442,8 +455,14 @@ pip install pandas numpy matplotlib seaborn scikit-learn
 └── README.md
 ```
 
+## About
+
+This project is part of my data analytics portfolio, demonstrating end-to-end competency across data cleaning, python analysis, business problem framing, and dashboard storytelling.
+
+**Portfolio:** [your-portfolio-link]  
+**LinkedIn:** [your-linkedin]  
+**Tableau Public:** [your-tableau-link]
+
 ---
 
-## Related Work
-
-This project is one component of a broader, tool-agnostic data analytics portfolio that independently demonstrates the same core competencies — data cleaning, EDA, segmentation, and storytelling — in SQL/Tableau, Excel, and Power BI as well.
+*Built with Python · Pandas · Numpy · MatPLotLib · Seaborn · Scikit-Learn · December 2010 online retail transaction data*

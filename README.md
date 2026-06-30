@@ -123,6 +123,9 @@ df['Invoice_Date_Only']=df['InvoiceDate'].dt.date
 df['Week_Beginning']=df['InvoiceDate'].dt.to_period('W').dt.start_time
 ```
 
+**Full Python Code:**
+*[View Full Jupyter Notebook Code](python/OnlineRetail-DataCleaningFinal.ipynb)
+
 ---
 
 ## 2. Exploratory Data Analysis
@@ -208,6 +211,9 @@ plt.show()
 ![Orders per Customer](charts/04_orders_per_customer.png)
 ![Average Order Value Distribution](charts/05_average_order_value.png)
 
+**Full Python Code:**
+*[View Full Jupyter Notebook Code](python/EDA.ipynb)
+
 ---
 
 ## 3. Cohort Retention Analysis
@@ -247,6 +253,9 @@ Retention_Table = Cohort_Table.divide(Cohort_Size, axis=0) * 100
 ![Cohort Retention Heatmap](charts/06_cohort_retention_heatmap.png)
 ![Cohort Sizes per Week](charts/07_cohort_sizes.png)
 ![Average Retention Curve](charts/08_average_retention_curve.png)
+
+**Full Python Code:**
+*[View Full Jupyter Notebook Code](python/CohortAnalysis.ipynb)
 
 ---
 
@@ -313,6 +322,9 @@ RFM['Cluster'] = kmeans.labels_
 ![RFM Segment Counts](charts/09_rfm_segment_counts.png)
 ![K-Means Customer Clusters](charts/10_kmeans_clusters.png)
 
+**Full Python Code:**
+*[View Full Jupyter Notebook Code](python/RFMSegmentationandKMeansClustering.ipynb)
+
 ---
 
 ## 5. Cancellation Pattern Analysis
@@ -349,6 +361,9 @@ top_cancel_products = (
 ![Top 5 Customers by Cancelled Revenue](charts/11_top_cancel_customers.png)
 ![Top 5 Most Frequently Cancelled Products](charts/12_top_cancel_products.png)
 ![Daily Cancellation Trend](charts/13_daily_cancellation_trend.png)
+
+**Full Python Code:**
+*[View Full Jupyter Notebook Code](python/CancellationPatterns.ipynb)
 
 ---
 
@@ -394,6 +409,9 @@ print(classification_report(y_test, predictions, target_names=['Will Complete', 
 **Visual:**
 
 ![Logistic Prediction](charts/14_logistic_regression)
+
+**Full Python Code:**
+*[View Full Jupyter Notebook Code](python/LogisticRegression.ipynb)
 
 ---
 

@@ -138,6 +138,16 @@ df['Week_Beginning']=df['InvoiceDate'].dt.to_period('W').dt.start_time
 | Completed orders | 9,821 (98.5%) |
 | Cancelled orders | 153 (1.5%) |
 
+**Project Intent & Core Business Rationale**
+
+The core goal of this analysis was to parse a newly cleaned baseline of raw transactional logs (spanning December 1 to December 23, 2010) to diagnose dynamic retail activities, pinpoint structural customer behaviors, and convert tabular records into structural corporate indicators.
+
+Specifically, this exploratory phase establishes data checkpoints and tests structural hypotheses necessary for driving two downstream production tracks:
+
+Targeted Engagement Windows: Spotting operational bottlenecks, calculating line-item financial weight via custom revenue variables, and discovering peak order hourly velocities to drive promotional timing.
+
+Predictive Cohort & Segment Construction: Quantifying the explicit breakdown between one-time customer impressions and loyal repeat accounts. This directly anchors the business rationale for following up with a Time-Based Cohort Retention Analysis and an RFM (Recency, Frequency, Monetary) Customer Segmentation System.
+
 **Key findings:**
 
 - **Order value is right-skewed:** Average Order Value averages £152, but the median is just £63 — a small number of large bulk/wholesale orders (max £13,541) pull the mean well above what a typical customer spends.
@@ -156,6 +166,7 @@ df['Week_Beginning']=df['InvoiceDate'].dt.to_period('W').dt.start_time
 **Code snippet — one-time vs. repeat buyer split:**
 
 ```python
+#One-time vs. repeat buyer split
 orders_per_customer = (
     df.groupby('Customer ID')['Invoice']
       .nunique()
@@ -168,6 +179,33 @@ total = len(orders_per_customer)
 
 print(f"One-time buyers : {one_time}  ({one_time/total:.1%})")
 print(f"Repeat buyers   : {repeat}  ({repeat/total:.1%})")
+
+#Financial Distribution & Outlier Aggregations Plotting Logic
+# Isolating order values per unique invoice
+aov = df.groupby('Invoice')['Revenue'].sum().reset_index(name='order_value')
+
+# Instantiating visualization canvas grid layout
+fig, axes = plt.subplots(1, 2, figsize=(10, 4))
+fig.suptitle('Average Order Value Distribution', fontsize=10, fontweight='bold')
+
+# Filtering extreme bulk-purchase outliers at the 95th percentile
+aov_95 = aov['order_value'].quantile(0.95)
+aov_filtered = aov[aov['order_value'] <= aov_95]['order_value']
+
+# Subplot 1: Kernel Density Estimation & Value Distribution Histogram
+sns.histplot(aov_filtered, bins=40, kde=True, color='teal', ax=axes[0])
+axes[0].set_title('Order Value Distribution')
+axes[0].set_xlabel('Order Value (£)')
+axes[0].set_ylabel('Number of Orders')
+
+# Subplot 2: Structural Spread Boxplot (Excluding Outliers)
+sns.boxplot(y=aov_filtered, color='teal', ax=axes[1], width=0.5, showfliers=False)
+axes[1].set_title('Order Value Spread')
+axes[1].set_ylabel('Order Value (£)')
+
+plt.tight_layout()
+plt.savefig('charts/05_average_order_value.png', bbox_inches='tight')
+plt.show()
 ```
 
 ---
@@ -184,12 +222,6 @@ Customers were grouped into weekly cohorts based on the week of their first purc
 - Cohort sizes (new customers per week) and the average retention curve are visualized to show both **acquisition volume** and **retention decay** side by side, which is the standard way growth teams diagnose whether a problem is "we're not getting customers" vs. "we're not keeping them."
 
 **Business takeaway:** Acquisition isn't the bottleneck — retention is. A second-purchase incentive (e.g. a follow-up discount within 1–2 weeks of a first order) would likely have more revenue impact than spending more on acquisition.
-
-**Visuals:**
-
-![Cohort Retention Heatmap](charts/06_cohort_retention_heatmap.png)
-![Cohort Sizes per Week](charts/07_cohort_sizes.png)
-![Average Retention Curve](charts/08_average_retention_curve.png)
 
 **Code snippet — building the retention table:**
 
@@ -209,6 +241,12 @@ Cohort_Table = Cohort_Data.pivot(index='Cohort_Week', columns='Cohort_Index', va
 Cohort_Size = Cohort_Table.iloc[:, 0]
 Retention_Table = Cohort_Table.divide(Cohort_Size, axis=0) * 100
 ```
+
+**Visuals:**
+
+![Cohort Retention Heatmap](charts/06_cohort_retention_heatmap.png)
+![Cohort Sizes per Week](charts/07_cohort_sizes.png)
+![Average Retention Curve](charts/08_average_retention_curve.png)
 
 ---
 
@@ -237,11 +275,6 @@ RFM values were log-transformed (to handle skew) and standardized, then clustere
 | Cluster 2 | 17.0 | 2.4 | 39.2 | Lowest engagement, at risk |
 
 **Why both methods:** The rule-based segments are interpretable and fast to act on; the K-Means clusters reveal a structure the manual rules missed — Cluster 3 (1.2% of average spend tier) is a genuinely distinct "power buyer" group worth a dedicated retention strategy, not just folded into "Big Spenders."
-
-**Visuals:**
-
-![RFM Segment Counts](charts/09_rfm_segment_counts.png)
-![K-Means Customer Clusters](charts/10_kmeans_clusters.png)
 
 **Code snippet — RFM scoring and segment rules:**
 
@@ -275,6 +308,11 @@ kmeans.fit(RFM_scaled)
 RFM['Cluster'] = kmeans.labels_
 ```
 
+**Visuals:**
+
+![RFM Segment Counts](charts/09_rfm_segment_counts.png)
+![K-Means Customer Clusters](charts/10_kmeans_clusters.png)
+
 ---
 
 ## 5. Cancellation Pattern Analysis
@@ -289,12 +327,6 @@ One product — the *Rotating Silver Angels T-Light Holder* — accounted for 9,
 
 **When cancellations happen:**
 A daily cancellation trend across December shows cancellations are not evenly distributed — they spike on specific days rather than trickling in steadily, which is more consistent with bulk-order corrections or post-holiday-rush adjustments than random one-off customer regret.
-
-**Visuals:**
-
-![Top 5 Customers by Cancelled Revenue](charts/11_top_cancel_customers.png)
-![Top 5 Most Frequently Cancelled Products](charts/12_top_cancel_products.png)
-![Daily Cancellation Trend](charts/13_daily_cancellation_trend.png)
 
 **Code snippet — isolating and quantifying cancelled revenue:**
 
@@ -311,6 +343,12 @@ top_cancel_products = (
              .head(5)
 )
 ```
+
+**Visuals:**
+
+![Top 5 Customers by Cancelled Revenue](charts/11_top_cancel_customers.png)
+![Top 5 Most Frequently Cancelled Products](charts/12_top_cancel_products.png)
+![Daily Cancellation Trend](charts/13_daily_cancellation_trend.png)
 
 ---
 
@@ -352,6 +390,10 @@ predictions = model.predict(X_test_scaled)
 print(f"Overall Model Accuracy: {accuracy_score(y_test, predictions):.1%}")
 print(classification_report(y_test, predictions, target_names=['Will Complete', 'Will Cancel']))
 ```
+
+**Visual:**
+
+![Logistic Prediction](charts/14_logistic_regression)
 
 ---
 
